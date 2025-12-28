@@ -165,127 +165,23 @@
       </section>
 
       <!-- Contact -->
-<section id="contact" class="py-10">
-  <h2 class="text-xl font-semibold mb-4">Contact</h2>
-  <p class="text-sm text-slate-300 mb-6">
-    Send me a message directly. I'll reply within 24 hours.
-  </p>
-  
-  <form @submit.prevent="sendContactForm" class="max-w-md space-y-4">
-    <div>
-      <label class="block text-sm font-medium text-slate-300 mb-1">Name</label>
-      <input 
-        v-model="form.name"
-        type="text" 
-        required
-        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-md focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-        placeholder="Your name"
-      >
-    </div>
-    
-    <div>
-      <label class="block text-sm font-medium text-slate-300 mb-1">Email</label>
-      <input 
-        v-model="form.email"
-        type="email" 
-        required
-        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-md focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
-        placeholder="your@email.com"
-      >
-    </div>
-    
-    <div>
-      <label class="block text-sm font-medium text-slate-300 mb-1">Message</label>
-      <textarea 
-        v-model="form.message"
-        rows="4"
-        required
-        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-md focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 resize-vertical"
-        placeholder="Tell me about your project or collaboration idea..."
-      ></textarea>
-    </div>
-    
-    <button 
-      type="submit" 
-      :disabled="sending"
-      class="w-full flex items-center justify-center px-4 py-2 rounded bg-cyan-500 text-slate-950 font-medium hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      <span v-if="!sending">Send Message</span>
-      <span v-else>Sending...</span>
-    </button>
-  </form>
-  
-  <div v-if="status.message" 
-       :class="status.type === 'success' ? 'text-green-400' : 'text-red-400'"
-       class="mt-4 p-3 bg-slate-800/50 rounded-md text-sm">
-    {{ status.message }}
-  </div>
-</section>
- 
-
+      <section id="contact" class="py-10">
+        <h2 class="text-xl font-semibold mb-4">Contact</h2>
+        <p class="text-sm text-slate-300 mb-3">
+          Feel free to reach out for collaboration, freelance work, or just to say hi.
+        </p>
+        <ul class="text-sm text-slate-300 space-y-1">
+          <li>Email: <a href="mailto:you@example.com" class="text-cyan-300">you@example.com</a></li>
+          <li>GitHub: <a href="https://github.com/yourname" class="text-cyan-300" target="_blank">github.com/yourname</a></li>
+          <li>LinkedIn: <a href="#" class="text-cyan-300" target="_blank">Your LinkedIn URL</a></li>
+        </ul>
+      </section>
     </main>
   </div>
 </template>
 
-
-
-<!-- 暫時不需要腳本邏輯，之後要加動畫或 API 再擴充 -->
-
 <script setup>
-import { ref } from 'vue'
-
-// 表單狀態
-const form = ref({
-  name: '',
-  email: '',
-  message: ''
-})
-
-const sending = ref(false)
-const status = ref({ type: '', message: '' })
-
-// 暫時用假 URL，先測試前端邏輯
-const N8N_WEBHOOK_URL = 'https://httpbin.org/post'
-
-// 發送表單
-const sendContactForm = async () => {
-  sending.value = true
-  status.value = { type: '', message: '' }
-  
-  try {
-    const response = await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: form.value.name,
-        email: form.value.email,
-        message: form.value.message,
-        timestamp: new Date().toISOString(),
-        site: window.location.origin
-      })
-    })
-    
-    if (response.ok) {
-      status.value = { 
-        type: 'success', 
-        message: 'Message sent successfully! (測試用，之後接 n8n)' 
-      }
-      form.value = { name: '', email: '', message: '' }
-    } else {
-      throw new Error('Server error')
-    }
-  } catch (error) {
-    console.error('Form error:', error)
-    status.value = { 
-      type: 'error', 
-      message: 'Failed to send (正常，用於測試). Email me directly.' 
-    }
-  } finally {
-    sending.value = false
-  }
-}
+// 暫時不需要腳本邏輯，之後要加動畫或 API 再擴充
 </script>
 
 <style scoped>
